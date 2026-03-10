@@ -1,0 +1,56 @@
+# Copyright (c) 2024 CannonKeys LLC
+# SPDX-License-Identifier: MIT
+
+if SHIELD_PHOTON_DONGLE
+
+config ZMK_KEYBOARD_NAME
+    default "Photon Dongle"
+
+config ZMK_BOARD_COMPAT
+    def_bool y
+
+# Dongle is the USB HID device — USB must always be enabled
+config ZMK_USB
+    default y
+
+# Let ZMK control USB init — xiao_ble sets INITIALIZE_AT_BOOT=y which
+# causes usb_enable() to be called before ZMK sets up HID endpoints
+config USB_DEVICE_INITIALIZE_AT_BOOT
+    default n
+
+# BLE is required for the split central to scan and connect to the peripheral
+config ZMK_BLE
+    default y
+
+
+config ZMK_SPLIT
+    default y
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
+    default 1
+
+# Forward the peripheral's battery layer over USB to the host OS
+config ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_FETCHING
+    default y
+
+config ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_PROXY
+    default y
+
+# 1 peripheral + 5 BLE profiles + 1 headroom
+config BT_MAX_CONN
+    default 7
+
+config BT_MAX_PAIRED
+    default 7
+
+# Larger ACL buffers for reliable split data transfer
+config BT_BUF_ACL_RX_SIZE
+    default 255
+
+config BT_BUF_ACL_TX_SIZE
+    default 255
+
+endif # SHIELD_PHOTON_DONGLE

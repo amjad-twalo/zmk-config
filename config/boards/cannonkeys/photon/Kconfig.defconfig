@@ -1,0 +1,24 @@
+# Copyright (c) 2024 CannonKeys LLC
+# SPDX-License-Identifier: MIT
+
+if BOARD_PHOTON
+
+config ZMK_KEYBOARD_NAME
+    default "Photon"
+
+
+
+if USB_DEVICE_STACK
+
+config USB_NRFX
+    default y
+
+endif # USB_DEVICE_STACK
+
+config ZMK_BLE
+    default y
+
+config ZMK_USB
+    default y if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
+
+endif # BOARD_PHOTON

@@ -1,0 +1,9 @@
+/*
+ * Copyright (c) 2024 CannonKeys LLC
+ *
+ * SPDX-License-Identifier: MIT
+ *
+ * Dongle keymap simply pulls from the main keymap to ensure total sync.
+ */
+
+#include "../../cannonkeys/photon/photon.keymap"

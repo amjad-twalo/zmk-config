@@ -1,0 +1,31 @@
+# Build matrix for Photon keyboard in minimalistic dongle mode.
+# Targets:
+#   photon           — standalone USB (no dongle)
+#   photon_dongle    — XIAO BLE acting as USB central dongle
+#   photon_peripheral — Photon as BLE peripheral (pair with dongle)
+#   *_settings_reset — clear all BLE bonds (use before re-pairing)
+---
+include:
+  # Photon standalone (USB only, no split)
+  - board: photon//zmk
+    artifact-name: photon
+
+  # Seeed XIAO BLE as the USB central dongle
+  - board: xiao_ble//zmk
+    shield: photon_dongle rgbled_adapter
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+    artifact-name: photon_dongle
+
+  # Photon as BLE peripheral for dongle mode
+  - board: photon//zmk
+    cmake-args: -DEXTRA_CONF_FILE=${GITHUB_WORKSPACE}/boards/cannonkeys/photon/photon_peripheral.conf
+    artifact-name: photon_peripheral
+
+  # Settings reset — flash to clear BLE bonds before re-pairing
+  - board: xiao_ble//zmk
+    shield: settings_reset
+    artifact-name: dongle_settings_reset
+  - board: photon//zmk
+    shield: settings_reset
+    artifact-name: photon_settings_reset
