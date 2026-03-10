@@ -19,7 +19,7 @@ include:
 
   # Photon as BLE peripheral for dongle mode
   - board: photon//zmk
-    cmake-args: -DEXTRA_CONF_FILE=${GITHUB_WORKSPACE}/boards/cannonkeys/photon/photon_peripheral.conf
+    cmake-args: -DEXTRA_CONF_FILE=${GITHUB_WORKSPACE}/config/boards/cannonkeys/photon/photon_peripheral.conf
     artifact-name: photon_peripheral
 
   # Settings reset — flash to clear BLE bonds before re-pairing
