@@ -1,0 +1,17 @@
+# Nix
+result
+result-*
+flake.lock
+
+# ZMK/Zephyr
+build/
+.west/
+zephyr/
+modules/
+/config/boards/*/
+/config/shields/*/
+!/config/boards/cannonkeys/
+!/config/boards/shields/
+
+# OS
+.DS_Store

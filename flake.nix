@@ -65,9 +65,16 @@
             };
 
           firmwarePackages = pkgs.lib.mapAttrs mkKeyboardFirmware keyboards;
+
+          # Combined package to build all firmwares at once with descriptive names
+          all = pkgs.runCommand "all-firmwares" { } ''
+            mkdir -p $out
+            ${pkgs.lib.concatStringsSep "\n" (pkgs.lib.mapAttrsToList (name: pkg: "cp ${pkg}/zmk.uf2 $out/${name}.uf2") firmwarePackages)}
+          '';
         in
         firmwarePackages // {
-          default = firmwarePackages.photon_dongle;
+          inherit all;
+          default = all;
         });
 
       devShells = forAllSystems (system: {
