@@ -36,6 +36,10 @@
             photon_dongle = {
               board = "xiao_ble//zmk";
               shield = "photon_dongle rgbled_adapter";
+              extraCmakeFlags = [ 
+                "-DCONFIG_ZMK_STUDIO=y"
+                "-DSNIPPET=studio-rpc-usb-uart" 
+              ];
             };
             dongle_reset = {
               board = "xiao_ble//zmk";
@@ -58,6 +62,14 @@
                 shield
                 extraCmakeFlags
                 ;
+              # NOTE: ZMK Studio requires 'protoc' and its Python bindings
+              nativeBuildInputs = [
+                pkgs.protobuf
+                (pkgs.python3.withPackages (ps: with ps; [
+                  protobuf
+                  grpcio-tools
+                ]))
+              ];
               src = pkgs.lib.cleanSource ./.;
               config = "config";
               # This hash depends on the contents of config/west.yml
