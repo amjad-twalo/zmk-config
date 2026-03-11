@@ -10,6 +10,18 @@
 #include <dt-bindings/zmk/bt.h>
 
 / {
+    behaviors {
+        // ANSI-to-JIS Illusion for the Underscore key
+        // A standard tap sends Minus (which is '-' in JIS mode).
+        // A shifted tap sends INT_RO (which is '_' in JIS mode).
+        jis_under: japanese_underscore {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp MINUS>, <&kp INT_RO>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -41,7 +53,7 @@
         japanese_base_layer {
             display-name = "Base JP";
             bindings = <
-    &kp ESC   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL  &kp BSPC  &kp LG(C)
+    &kp ESC   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &jis_under &kp EQUAL  &kp BSPC  &kp LG(C)
     &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y     &kp U     &kp I     &kp O     &kp P     &kp LBKT  &kp RBKT   &kp INT_YEN &kp PSCRN
     &kp LCMD  &kp A     &kp S     &kp D     &kp F     &kp G     &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT              &kp RET   &none
     &kp LSHFT           &kp Z     &kp X     &kp C     &kp V     &kp B     &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT  &kp UP    &kp RALT
