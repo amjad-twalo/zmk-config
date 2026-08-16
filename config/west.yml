@@ -5,11 +5,11 @@ manifest:
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: main
+      revision: 6e2ef41e022d555b10f116e395832913f71717b3
       import: app/west.yml
     - name: zmk-rgbled-widget
       url: https://github.com/caksoylar/zmk-rgbled-widget
-      revision: main
+      revision: e6b467792a1dabef8cfa5c9fd26bfefc9c16662b
 
   self:
     path: config

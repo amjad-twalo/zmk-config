@@ -72,7 +72,7 @@
               ];
               src = pkgs.lib.cleanSource ./.;
               config = "config";
-              # This hash depends on the contents of config/west.yml
+              # Refresh when config/west.yml changes: set to pkgs.lib.fakeHash, build, copy the reported hash.
               zephyrDepsHash = "sha256-ay+mPpClxpSgH2gEpVLlUcqLpRzLJ1h0I6akRJAtuO0=";
             };
 
