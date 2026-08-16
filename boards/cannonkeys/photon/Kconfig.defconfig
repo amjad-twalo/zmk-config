@@ -21,4 +21,20 @@ config ZMK_BLE
 config ZMK_USB
     default y if !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
 
+if ZMK_RGB_UNDERGLOW
+
+config ZMK_RGB_UNDERGLOW_HUE_START
+    default 160
+
+config ZMK_RGB_UNDERGLOW_EFF_START
+    default 3
+
+config ZMK_RGB_UNDERGLOW_BRT_MIN
+    default 10
+
+config ZMK_RGB_UNDERGLOW_BRT_MAX
+    default 50
+
+endif # ZMK_RGB_UNDERGLOW
+
 endif # BOARD_PHOTON
