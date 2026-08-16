@@ -11,14 +11,99 @@
 
 / {
     behaviors {
-        // ANSI-to-JIS Illusion for the Underscore key
-        // A standard tap sends Minus (which is '-' in JIS mode).
-        // A shifted tap sends INT_RO (which is '_' in JIS mode).
+        // ANSI-to-JIS Illusion: mod-morphs that make an ANSI-engraved board
+        // type the engraved symbol on a host set to macOS JIS layout.
+        // A morph suppresses the triggering shift; LS(...) re-adds it where
+        // the JIS character is itself shifted.
         jis_under: japanese_underscore {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
             bindings = <&kp MINUS>, <&kp INT_RO>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_at: jis_at {  // 2 / @
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp N2>, <&kp LBKT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_caret: jis_caret {  // 6 / ^
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp N6>, <&kp EQUAL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_amp: jis_amp {  // 7 / &
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp N7>, <&kp LS(N6)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_star: jis_star {  // 8 / *
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp N8>, <&kp LS(SQT)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_lpar: jis_lpar {  // 9 / (
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp N9>, <&kp LS(N8)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_rpar: jis_rpar {  // 0 / )
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp N0>, <&kp LS(N9)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_equal: jis_equal {  // = / +
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LS(MINUS)>, <&kp LS(SEMI)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_lbkt: jis_lbkt {  // [ / {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp RBKT>, <&kp LS(RBKT)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_rbkt: jis_rbkt {  // ] / }
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp BSLH>, <&kp LS(BSLH)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_semi: jis_semi {  // ; / :
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp SEMI>, <&kp SQT>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        jis_quote: jis_quote {  // ' / "
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LS(N7)>, <&kp LS(N2)>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+
+        // Deep power-off; hold guard prevents accidental presses.
+        so: soft_off_hold {
+            compatible = "zmk,behavior-soft-off";
+            #binding-cells = <0>;
+            hold-time-ms = <2000>;
         };
     };
 
@@ -28,64 +113,50 @@
         english_base_layer {
             display-name = "Base EN";
             bindings = <
-    &kp ESC   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS &kp EQUAL  &kp BSPC  &kp DEL
-    &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y     &kp U     &kp I     &kp O     &kp P     &kp LBKT  &kp RBKT   &kp BSLH  &kp PGUP
-    &kp CLCK  &kp A     &kp S     &kp D     &kp F     &kp G     &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT              &kp RET   &kp PGDN
-    &kp LSHFT           &kp Z     &kp X     &kp C     &kp V     &kp B     &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT  &kp UP    &kp END
-    &kp LCTRL &kp LALT  &kp LCMD                                &kp SPACE                               &kp RCMD  &mo 1     &kp LEFT   &kp DOWN  &kp RIGHT
-    &none &mo 2
+    &kp ESC    &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &kp MINUS  &kp EQUAL  &kp BSPC  &kp DEL
+    &kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y     &kp U     &kp I     &kp O     &kp P     &kp LBKT   &kp RBKT   &kp BSLH  &kp PGUP
+    &caps_word &kp A     &kp S     &kp D     &kp F     &kp G     &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT               &kp RET   &kp PGDN
+    &kp LSHFT            &kp Z     &kp X     &kp C     &kp V     &kp B     &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH   &kp RSHFT  &kp UP    &kp END
+    &kp LCTRL  &kp LALT  &kp LCMD                                &kp SPACE                               &kp RCMD  &mo 2      &kp LEFT   &kp DOWN  &kp RIGHT
+    &none &mo 1
                 >;
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
-        };
-
-        english_function_layer {
-            display-name = "Fn EN";
-            bindings = <
-    &kp GRAVE   &kp C_BRI_UP   &kp C_BRI_DN   &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS   &kp C_AC_DESKTOP_SHOW_ALL_APPLICATIONS    &kp C_AC_SEARCH    &kp C_PWR    &kp C_PREV    &kp C_PP    &kp C_NEXT    &kp C_MUTE    &kp C_VOL_DN    &kp C_VOL_UP    &kp DEL    &kp INS 
-    &rgb_ug RGB_TOG   &trans   &kp PGUP   &trans &trans   &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans   
-    &trans   &kp HOME   &kp PGDN   &kp END   &trans &trans    &trans    &trans    &trans    &trans    &trans    &trans              &trans    &trans  
-    &trans            &trans   &trans   &trans   &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans  
-    &trans   &trans   &trans                               &trans                                  &mo 4     &trans    &trans    &trans    &trans
-    &none &mo 2
-            >;
         };
 
         japanese_base_layer {
             display-name = "Base JP";
             bindings = <
-    &kp ESC   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5    &kp N6    &kp N7    &kp N8    &kp N9    &kp N0    &jis_under &kp EQUAL  &kp BSPC  &kp LG(C)
-    &kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y     &kp U     &kp I     &kp O     &kp P     &kp LBKT  &kp RBKT   &kp INT_YEN &kp PSCRN
-    &kp LCMD  &kp A     &kp S     &kp D     &kp F     &kp G     &kp H     &kp J     &kp K     &kp L     &kp SEMI  &kp SQT              &kp RET   &none
-    &kp LSHFT           &kp Z     &kp X     &kp C     &kp V     &kp B     &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT  &kp UP    &kp RALT
-    &kp LCTRL &kp LALT  &kp LANG2                               &kp SPACE                               &kp LANG1 &mo 3     &kp LEFT   &kp DOWN  &kp RIGHT
+    &kp ESC    &kp N1    &jis_at   &kp N3    &kp N4    &kp N5    &jis_caret &jis_amp &jis_star &jis_lpar &jis_rpar &jis_under &jis_equal &kp BSPC    &kp LG(C)
+    &kp TAB    &kp Q     &kp W     &kp E     &kp R     &kp T     &kp Y     &kp U     &kp I     &kp O     &kp P     &jis_lbkt  &jis_rbkt  &kp INT_YEN &kp PSCRN
+    &kp LCMD   &kp A     &kp S     &kp D     &kp F     &kp G     &kp H     &kp J     &kp K     &kp L     &jis_semi &jis_quote            &kp RET     &none
+    &kp LSHFT            &kp Z     &kp X     &kp C     &kp V     &kp B     &kp N     &kp M     &kp COMMA &kp DOT   &kp FSLH   &kp RSHFT  &kp UP      &kp RALT
+    &kp LCTRL  &kp LALT  &kp LANG2                               &kp SPACE                               &kp LANG1 &mo 2      &kp LEFT   &kp DOWN    &kp RIGHT
     &none &none
                 >;
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
-
         };
 
-        japanese_function_layer {
-            display-name = "Fn JP";
+        function_layer {
+            display-name = "Fn";
             bindings = <
-    &kp GRAVE   &kp C_BRI_UP   &kp C_BRI_DN   &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS   &kp C_AC_DESKTOP_SHOW_ALL_APPLICATIONS    &kp C_AC_SEARCH    &kp C_PWR    &kp C_PREV    &kp C_PP    &kp C_NEXT    &kp C_MUTE    &kp C_VOL_DN    &kp C_VOL_UP    &kp DEL    &none 
-    &rgb_ug RGB_TOG   &trans   &kp PGUP   &trans &trans   &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &none   
-    &trans   &kp HOME   &kp PGDN   &kp END   &trans &trans    &trans    &trans    &trans    &trans    &trans    &trans              &trans    &none  
-    &trans            &trans   &trans   &trans   &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &none  
-    &trans   &trans   &trans                               &trans                                  &mo 4     &trans    &trans    &trans    &none
-    &none &none
+    &kp GRAVE   &kp C_BRI_UP   &kp C_BRI_DN   &kp C_AC_DESKTOP_SHOW_ALL_WINDOWS   &kp C_AC_DESKTOP_SHOW_ALL_APPLICATIONS    &kp C_AC_SEARCH    &kp C_PWR    &kp C_PREV    &kp C_PP    &kp C_NEXT    &kp C_MUTE    &kp C_VOL_DN    &kp C_VOL_UP    &kp DEL    &kp INS
+    &rgb_ug RGB_TOG   &trans   &kp PGUP   &trans &trans   &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+    &kp CLCK &kp HOME   &kp PGDN   &kp END   &trans &trans    &trans    &trans    &trans    &trans    &trans    &trans              &trans    &trans
+    &trans            &trans   &trans   &trans   &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans
+    &trans   &trans   &trans                               &trans                                  &mo 3     &trans    &trans    &trans    &trans
+    &none &mo 1
             >;
         };
-
 
         control_layer {
             display-name = "Keyboard Control";
             bindings = <
-    &bt BT_CLR_ALL &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6    &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12   &kp DEL   &bt BT_CLR  
-    &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_HUI &rgb_ug RGB_SAI  &rgb_ug RGB_BRI &rgb_ug RGB_SPI &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &bt BT_SEL 0   
-    &trans          &rgb_ug RGB_EFR &rgb_ug RGB_HUD &rgb_ug RGB_SAD  &rgb_ug RGB_BRD &rgb_ug RGB_SPD &trans    &trans    &trans    &trans    &trans    &trans    &studio_unlock      &bt BT_SEL 1   
-    &trans                          &trans          &trans           &trans          &trans          &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans          &bt BT_SEL 2 
-    &bootloader     &trans          &trans                                                           &rgb_ug RGB_TOG                         &trans    &trans    &trans    &trans          &bt BT_SEL 3
-    &none &mo 2
+    &bt BT_CLR_ALL &kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6    &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12   &kp DEL   &bt BT_CLR
+    &rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_HUI &rgb_ug RGB_SAI  &rgb_ug RGB_BRI &rgb_ug RGB_SPI &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans    &bt BT_SEL 0
+    &trans          &rgb_ug RGB_EFR &rgb_ug RGB_HUD &rgb_ug RGB_SAD  &rgb_ug RGB_BRD &rgb_ug RGB_SPD &trans    &trans    &trans    &trans    &trans    &trans    &studio_unlock      &bt BT_SEL 1
+    &trans                          &trans          &trans           &trans          &trans          &trans    &trans    &trans    &trans    &trans    &trans    &trans    &trans          &bt BT_SEL 2
+    &bootloader     &so             &trans                                                           &rgb_ug RGB_TOG                         &trans    &trans    &trans    &trans          &bt BT_SEL 3
+    &none &mo 1
             >;
         };
 
