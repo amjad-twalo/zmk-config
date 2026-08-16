@@ -73,7 +73,7 @@
               src = pkgs.lib.cleanSource ./.;
               config = "config";
               # This hash depends on the contents of config/west.yml
-              zephyrDepsHash = "sha256-0+UOYhtuhQWexrIqj2PsKSHtjQug9I4JnXi6kuKXIVo=";
+              zephyrDepsHash = "sha256-ay+mPpClxpSgH2gEpVLlUcqLpRzLJ1h0I6akRJAtuO0=";
             };
 
           firmwarePackages = pkgs.lib.mapAttrs mkKeyboardFirmware keyboards;
