@@ -31,7 +31,7 @@
             };
             photon_peripheral = {
               board = "photon//zmk";
-              extraCmakeFlags = [ "-DEXTRA_CONF_FILE=${./config/boards/cannonkeys/photon/photon_peripheral.conf}" ];
+              extraCmakeFlags = [ "-DEXTRA_CONF_FILE=${./config/photon_peripheral.conf}" ];
             };
             photon_dongle = {
               board = "xiao_ble//zmk";
