@@ -26,9 +26,7 @@
 
           # Boards and Shields configuration
           keyboards = {
-            photon = {
-              board = "photon//zmk";
-            };
+            photon = { board = "photon//zmk"; enableZmkStudio = true; };
             photon_peripheral = {
               board = "photon//zmk";
               extraCmakeFlags = [ "-DEXTRA_CONF_FILE=${./config/photon_peripheral.conf}" ];
@@ -36,15 +34,10 @@
             photon_dongle = {
               board = "xiao_ble//zmk";
               shield = "photon_dongle rgbled_adapter";
-              extraCmakeFlags = [ 
-                "-DCONFIG_ZMK_STUDIO=y"
-                "-DSNIPPET=studio-rpc-usb-uart" 
-              ];
+              enableZmkStudio = true;
             };
-            dongle_reset = {
-              board = "xiao_ble//zmk";
-              shield = "settings_reset";
-            };
+            dongle_settings_reset = { board = "xiao_ble//zmk"; shield = "settings_reset"; };
+            photon_settings_reset = { board = "photon//zmk"; shield = "settings_reset"; };
           };
 
           mkKeyboardFirmware =
@@ -53,6 +46,7 @@
               board,
               shield ? null,
               extraCmakeFlags ? [ ],
+              enableZmkStudio ? false,
               ...
             }:
             builders.buildKeyboard {
@@ -61,15 +55,8 @@
                 board
                 shield
                 extraCmakeFlags
+                enableZmkStudio
                 ;
-              # NOTE: ZMK Studio requires 'protoc' and its Python bindings
-              nativeBuildInputs = [
-                pkgs.protobuf
-                (pkgs.python3.withPackages (ps: with ps; [
-                  protobuf
-                  grpcio-tools
-                ]))
-              ];
               src = pkgs.lib.cleanSource ./.;
               config = "config";
               # Refresh when config/west.yml changes: set to pkgs.lib.fakeHash, build, copy the reported hash.
